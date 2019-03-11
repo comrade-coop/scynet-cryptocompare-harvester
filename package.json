@@ -1,0 +1,26 @@
+{
+  "name": "scynet-market-harvester",
+  "version": "0.0.1",
+  "description": "A harvester that takes data from different exchanges and pushes it to kafka",
+  "main": "index.js",
+  "author": "alex4o",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/core": "^7.3.4",
+    "@babel/node": "^7.2.2",
+    "@grpc/proto-loader": "^0.4.0",
+    "cryptocompare": "^1.0.0",
+    "grpc": "^1.19.0",
+    "kafkajs": "^1.5.0",
+    "node-fetch": "^2.3.0",
+    "nodemon": "^1.18.10",
+    "socket.io-client": "^2.2.0",
+    "uuid": "^3.3.2"
+  },
+  "scripts": {
+    "live": "nodemon --inspect ./index.js --exec babel-node --presets @babel/env"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.3.4"
+  }
+}

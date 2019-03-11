@@ -1,0 +1,36 @@
+Arguments: 
+  /usr/bin/node /mnt/c/Program Files (x86)/Yarn/bin/yarn.js init
+
+PATH: 
+  /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/mnt/c/tools/Cmder/vendor/conemu-maximus5/ConEmu/wsl:/mnt/c/tools/Cmder/vendor/conemu-maximus5/ConEmu/Scripts:/mnt/c/tools/Cmder/vendor/conemu-maximus5:/mnt/c/tools/Cmder/vendor/conemu-maximus5/ConEmu:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath_target_350378234:/mnt/c/ProgramData/DockerDesktop/version-bin:/mnt/c/Program Files/Docker/Docker/resources/bin:/mnt/c/Windows/System32:/mnt/c/Windows:/mnt/c/Windows/System32/wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0:/mnt/c/Program Files/dotnet:/mnt/c/Program Files/Microsoft SQL Server/130/Tools/Binn:/mnt/c/Windows/System32/OpenSSH:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/c/Program Files (x86)/Paragon Software/LinuxFS for Windows:/mnt/c/Program Files (x86)/Yarn/bin:/mnt/c/Program Files/Git/cmd:/mnt/c/Program Files/Microsoft VS Code/bin:/mnt/c/Program Files/Java/jdk-11.0.2/bin:/mnt/c/ProgramData/chocolatey/lib/mpv.install/tools:/mnt/c/Program Files (x86)/Wolfram Research/WolframScript:/mnt/c/Program Files/nodejs:/mnt/c/Users/alex4o/AppData/Local/Microsoft/WindowsApps:/mnt/c/Users/alex4o/AppData/Local/Yarn/bin:/mnt/c/tools/Cmder:/mnt/c/Users/alex4o/AppData/Roaming/npm:/usr/lib/emscripten:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl
+
+Yarn version: 
+  1.13.0
+
+Node version: 
+  11.11.0
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: canceled
+      at Interface.<anonymous> (/mnt/c/Program Files (x86)/Yarn/lib/cli.js:125657:13)
+      at Interface.emit (events.js:197:13)
+      at Interface._ttyWrite (readline.js:820:16)
+      at ReadStream.onkeypress (readline.js:184:10)
+      at ReadStream.emit (events.js:197:13)
+      at emitKeys (internal/readline.js:424:14)
+      at emitKeys.next (<anonymous>)
+      at ReadStream.onData (readline.js:1093:36)
+      at ReadStream.emit (events.js:197:13)
+      at addChunk (_stream_readable.js:288:12)
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
