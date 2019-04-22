@@ -1,23 +1,48 @@
 import fs from 'fs'
 
 export function convertCryptocompareObject (array) {
-  let [exchange, primary, secondory, direction, tickString, timestamp, p1, price, u1] = array
-  let tick = tickString | 0
+  let [exchange, primary, secondory, direction, tick, timestamp, p1, price, u1] = array
   return {
-    exchange,
+    exchange: exchange,
     pair: [primary, secondory],
     direction: direction === 1 ? 'UP' : 'DOWN',
     lastTrade: [p1, u1],
-    price,
-    tick,
+    price: price,
+    tick: tick | 0,
     timestamp: new Date(1000 * timestamp)
   }
 }
 
-export function readFileOr (file, els) {
-  if (fs.existsSync(file)) {
-    return fs.readFileSync(file) | 0
-  } else {
-    return els
+export class Progress {
+  constructor (name, defaultValue = 0) {
+    this.name = name
+    this.hasValue = false
+    this._value = defaultValue
+  }
+
+  get value () {
+    if (!this.hasValue) {
+      this.read()
+    }
+    return this._value
+  }
+
+  set value (value) {
+    this._value = value
+    this.hasValue = true
+    this.store()
+  }
+
+  read () {
+    if (fs.existsSync(this.name + '.progress')) {
+      this._value = fs.readFileSync(this.name + '.progress')
+    }
+    this.hasValue = true
+    return this
+  }
+
+  store () {
+    fs.writeFile(this.name + '.progress', this._value)
+    return this
   }
 }
