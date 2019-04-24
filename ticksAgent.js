@@ -16,7 +16,7 @@ export default function (produceCallback) {
         let priceObject = convertCryptocompareObject(rest)
 
         if (tickProgress.value < priceObject.tick) {
-          produceCallback(priceObject.tick, priceObject)
+          produceCallback(priceObject.tick, [priceObject.price])
           tickProgress.value = priceObject.tick
         }
 
