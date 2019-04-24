@@ -1,11 +1,8 @@
 import * as grpc from 'grpc'
-import * as protoLoader from '@grpc/proto-loader'
 
-import { protoLoaderOptions, connectionOptions } from './options'
+import { connectionOptions } from './options'
 import { componentId, agents } from './agents'
-
-const packageDefinition = protoLoader.loadSync(['./protocols/Component.proto', './protocols/Hatchery.proto'], protoLoaderOptions)
-const { Scynet } = grpc.loadPackageDefinition(packageDefinition)
+import { Scynet } from './protobufs'
 
 export class ComponentServiceImpl {
   RegisterInput (call, callback) {

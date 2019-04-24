@@ -13,11 +13,20 @@ export function convertCryptocompareObject (array) {
   }
 }
 
+export function dateToUnix (date) {
+  return Math.floor((date || new Date()).getTime() / 1000)
+}
+
+export function unixToDate (unix) {
+  return new Date(unix * 1000)
+}
+
 export class Progress {
-  constructor (name, defaultValue = 0) {
+  constructor (name, defaultValue = {}) {
     this.name = name
     this.hasValue = false
     this._value = defaultValue
+    this.storeQueued = false
   }
 
   get value () {
@@ -35,14 +44,27 @@ export class Progress {
 
   read () {
     if (fs.existsSync(this.name + '.progress')) {
-      this._value = fs.readFileSync(this.name + '.progress')
+      try {
+        this._value = JSON.parse(fs.readFileSync(this.name + '.progress'))
+      } catch (error) {
+        console.error('Error while reading progress', error)
+      }
     }
     this.hasValue = true
     return this
   }
 
   store () {
-    fs.writeFile(this.name + '.progress', this._value)
+    if (this.storeQueued) return
+    this.storeQueued = true
+    setTimeout(() => {
+      fs.writeFile(this.name + '.progress', JSON.stringify(this._value), (error) => {
+        if (error) {
+          console.error('Error while saving progress', error)
+        }
+        this.storeQueued = false
+      })
+    }, 100)
     return this
   }
 }

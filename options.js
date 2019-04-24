@@ -10,3 +10,4 @@ export let connectionOptions = {
   componentAddress: '127.0.0.1:9990',
   kafkaBrokers: ['127.0.0.1:9092']
 }
+export let cryptocompareApiKey = ''
