@@ -15,14 +15,15 @@ export default function (produceCallback) {
   // TODO: Move into a seperate labeler
   let differencePeriods = 48
   function transformer (current, past) {
-    if (current / past > 1.01) return 1
+    if (isNaN(current) || isNaN(past)) return NaN
+    else if (current / past > 1.01) return 1
     else if (current / past < 0.995) return -1
     else return 0
   }
   let candleProgress = new Progress('candle', [
     // dateToUnix(new Date('2015-06-29T00:00:00Z')),
     dateToUnix(new Date('2018-06-29T00:00:00Z')),
-    new Array(differencePeriods).fill(0)
+    new Array(differencePeriods).fill(NaN)
   ])
 
   async function consumeNewestCandles () {
@@ -35,8 +36,10 @@ export default function (produceCallback) {
 
     for (let candle of newCandles) {
       if (candleProgress.value[0] < candle.time) {
-        // produceCallback(candle.time, [candle.close])
-        produceCallback(candle.time, [transformer(candle.close, candleProgress.value[1][0])])
+        let transformedValue = transformer(candle.close, candleProgress.value[1][0])
+        if (!isNaN(transformedValue)) {
+          produceCallback(candle.time - differencePeriods * hourDuration, [transformedValue])
+        }
         candleProgress.value = [
           candle.time,
           [candle.close].concat(candleProgress.value[1].slice(0, -1))
