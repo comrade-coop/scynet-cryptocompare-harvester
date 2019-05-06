@@ -19,13 +19,13 @@ function getLabel (pastPrice, highSince, lowSince) {
   var overHigh = highSince / pastPrice > highThreshold
   var underLow = lowSince / pastPrice < lowThreshold
 
-  if (overHigh && underLow) return 3
-  else if (overHigh) return 2
-  else if (underLow) return 1
-  else return 0
-
-  // if (overHigh && underLow) return 1
+  // if (overHigh && underLow) return 3
+  // else if (overHigh) return 2
+  // else if (underLow) return 1
   // else return 0
+
+  if (overHigh && underLow) return 1
+  else return 0
 }
 
 export function initialize () {
