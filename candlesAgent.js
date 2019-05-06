@@ -7,10 +7,10 @@ import fetch from 'node-fetch'
 global.fetch = fetch
 
 const hourDuration = 60 * 60
-const maxBatchSize = 1 // 2000
+const maxBatchSize = 2000
 const labelPeriods = 48
 const highThreshold = 0.01
-const lowThreshold = 0.005 // 1 / highThreshold
+const lowThreshold = 0.005
 
 function getLabel (pastPrice, highSince, lowSince) {
   if (isNaN(pastPrice) || isNaN(highSince) || isNaN(lowSince)) return undefined
