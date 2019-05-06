@@ -35,7 +35,7 @@ export function addProducer (uuid, shape) {
   console.log(`Added agent ${uuid} (topic ${topic}) with shape ${shape}!`)
 
   return function (key, values) {
-    console.log(`Agent ${uuid} produced value ${values}\t at ${key} (${unixToDate(key | 0).toISOString()})`)
+    // console.log(`Agent ${uuid} produced value ${values}\t at ${key} (${unixToDate(key | 0).toISOString()})`)
     producer.send({
       topic,
       messages: [{ key: key.toString(), value: encodeBlob(values) }]
