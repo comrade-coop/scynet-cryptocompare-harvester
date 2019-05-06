@@ -9,22 +9,13 @@ global.fetch = fetch
 const hourDuration = 60 * 60
 const maxBatchSize = 1 // 2000
 const labelPeriods = 48
-const highThreshold = 1.01
-const lowThreshold = 0.995 // 1 / highThreshold
+const highThreshold = 0.01
+const lowThreshold = 0.005 // 1 / highThreshold
 
 function getLabel (pastPrice, highSince, lowSince) {
-  // (currentCandle.high - lastCandle.close) / lastCandle.close >= 0.01 && (lastCandle.close - currentCandle.low) / lastCandle.close <= 0.005
   if (isNaN(pastPrice) || isNaN(highSince) || isNaN(lowSince)) return undefined
 
-  var overHigh = highSince / pastPrice > highThreshold
-  var underLow = lowSince / pastPrice < lowThreshold
-
-  // if (overHigh && underLow) return 3
-  // else if (overHigh) return 2
-  // else if (underLow) return 1
-  // else return 0
-
-  if (overHigh && underLow) return 1
+  if ((highSince - pastPrice) / pastPrice >= highThreshold && (pastPrice - lowSince) / pastPrice <= lowThreshold) return 1
   else return 0
 }
 
