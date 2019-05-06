@@ -21,8 +21,33 @@ export function unixToDate (unix) {
   return new Date(unix * 1000)
 }
 
-export class Progress {
+class IProgress {
+  split () {
+    if (typeof this.value === 'object' && !Array.isArray(this.value)) {
+      let result = { _: this }
+      for (let key in this.value) {
+        if (this.value.hasOwnProperty(key)) {
+          result[key] = new SubProgress(key, this).split()
+        }
+      }
+      return result
+    } else {
+      return this
+    }
+  }
+
+  valueOf () {
+    return this.value
+  }
+
+  toString () {
+    return this.value
+  }
+}
+
+export class Progress extends IProgress {
   constructor (name, defaultValue = {}) {
+    super()
     this.name = name
     this.hasValue = false
     this._value = defaultValue
@@ -65,6 +90,33 @@ export class Progress {
         this.storeQueued = false
       })
     }, 100)
+    return this
+  }
+}
+
+export class SubProgress extends IProgress {
+  constructor (name, parent) {
+    super()
+    this.name = name
+    this.parent = parent
+  }
+
+  get value () {
+    return this.parent.value[this.name]
+  }
+
+  set value (value) {
+    this.parent.value[this.name] = value
+    this.parent.store()
+  }
+
+  read () {
+    this.parent.read()
+    return this
+  }
+
+  store () {
+    this.parent.store()
     return this
   }
 }

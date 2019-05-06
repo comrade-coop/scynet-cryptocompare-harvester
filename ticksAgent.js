@@ -5,6 +5,7 @@ import fetch from 'node-fetch'
 global.fetch = fetch
 
 export default function (produceCallback) {
+  // FIXME: stale code
   var socket = socketIo.connect('https://streamer.cryptocompare.com/')
   socket.emit('SubAdd', { 'subs': ['0~Coinbase~ETH~USD'] })
   let tickProgress = new Progress('tick', 0).read()

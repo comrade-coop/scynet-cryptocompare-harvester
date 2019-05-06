@@ -1,8 +1,10 @@
+import { promisify } from 'util'
 import * as grpc from 'grpc'
+import uuidv4 from 'uuid/v4'
 
 import { connectionOptions } from './options'
-import { componentId, agents } from './agents'
 import { Scynet } from './protobufs'
+import { agents } from './producer'
 
 export class ComponentServiceImpl {
   RegisterInput (call, callback) {
@@ -33,18 +35,39 @@ export class ComponentServiceImpl {
   }
 }
 
-export const hatchery = new Scynet.Hatchery(connectionOptions.hatcheryAddress, grpc.credentials.createInsecure())
+function convertAgent (uuid, shape, componentId) {
+  return {
+    uuid: uuid,
+    componentType: 'scynet-market-harvester',
+    componentId: componentId,
+    inputs: [],
+    outputs: [{
+      dimension: shape
+    }],
+    frequency: 60 * 60,
+    _module: module
+  }
+}
 
-export default async (server) => {
+for (let key in Scynet.Hatchery.prototype) {
+  let value = Scynet.Hatchery.prototype[key]
+  if (typeof value === 'function') {
+    Scynet.Hatchery.prototype[key + 'Async'] = promisify(value)
+  }
+}
+const hatchery = new Scynet.Hatchery(connectionOptions.hatcheryAddress, grpc.credentials.createInsecure())
+
+export default async (server, componentId = uuidv4()) => {
   server.addService(Scynet.Component.service, new ComponentServiceImpl())
 
-  hatchery.RegisterComponent({
+  await hatchery.RegisterComponentAsync({
     uuid: componentId,
     address: connectionOptions.componentAddress,
     runnerType: ['scynet-market-harvester']
-  }, () => {
-    for (let agent of agents) {
-      hatchery.RegisterAgent({ agent }, () => {})
-    }
   })
+  await Promise.all(agents.map(agent =>
+    hatchery.RegisterAgentAsync({
+      agent: convertAgent(agent.uuid, agent.shape, componentId)
+    })
+  ))
 }
