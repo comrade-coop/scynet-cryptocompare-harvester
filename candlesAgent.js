@@ -41,7 +41,7 @@ export function initialize () {
   }
 
   async function consumeNewestCandles () {
-    let currentTime = dateToUnix()
+    let currentTime = dateToUnix() - 10
     let toTime = timestampReached.value + hourDuration * maxBatchSize
     let batchSize = maxBatchSize
 
@@ -56,7 +56,7 @@ export function initialize () {
     let newCandles = await histoHour('ETH', 'USD', { limit: batchSize, toTs: toTime, exchange: 'Coinbase' })
 
     for (let candle of newCandles) {
-      if (candle.time < timestampReached.value) {
+      if (candle.time <= timestampReached.value) {
         console.log(timestampReached.value, candle.time)
         continue
       }
