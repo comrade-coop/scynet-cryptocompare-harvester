@@ -13,13 +13,6 @@ export class ComponentServiceImpl {
 
   AgentStart (call, callback) {
     callback(null)
-    if (!agents.includes(x => x.uuid === call.egg.uuid)) {
-      hatchery.AgentStopped({
-        agent: call.egg,
-        reason: 'Nonexistent agent',
-        code: 404
-      }, () => {})
-    }
   }
 
   AgentStop (call, callback) {
