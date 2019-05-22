@@ -41,7 +41,7 @@ export function initialize () {
   }
 
   async function consumeNewestCandles () {
-    let currentTime = dateToUnix() - 10
+    let currentTime = dateToUnix() - 3605
     let toTime = timestampReached.value + hourDuration * maxBatchSize
     let batchSize = maxBatchSize
 
